@@ -1,5 +1,6 @@
 package aula.multiversa.professor.service;
 
+import aula.multiversa.professor.model.AlunoModel;
 import aula.multiversa.professor.model.ProfessorModel;
 import aula.multiversa.professor.repository.ProfessorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,13 @@ public class ProfessorService {
     @Autowired
     private ProfessorRepository professorRepository;
 
-    // Método para salvar ou atualizar um professor
+    // Método para salvar um professor
     public ProfessorModel save(ProfessorModel professor) {
+        return professorRepository.save(professor);
+    }
+
+    public ProfessorModel update(Long professorId, ProfessorModel professor) {
+        professorRepository.findById(professorId).orElseThrow(() -> new RuntimeException("Professor não encontrado"));
         return professorRepository.save(professor);
     }
 

@@ -19,8 +19,14 @@ public class AlunoService {
     @Autowired
     private DisciplinaRepository disciplinaRepository;
 
-    // Método para salvar ou atualizar um aluno
+    // Método para salvar um aluno
     public AlunoModel save(AlunoModel aluno) {
+        return alunoRepository.save(aluno);
+    }
+
+    // Método para atualizar um aluno
+    public AlunoModel update(Long alunoId, AlunoModel aluno) {
+        alunoRepository.findById(alunoId).orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
         return alunoRepository.save(aluno);
     }
 

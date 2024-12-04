@@ -24,7 +24,12 @@ public class DisciplinaService {
         return disciplinaRepository.save(disciplina);
     }
 
-    // Método para buscar uma disciplina por ID
+    public DisciplinaModel update(Long disciplinaId, DisciplinaModel disciplina) {
+        disciplinaRepository.findById(disciplinaId).orElseThrow(() -> new RuntimeException("Disciplina não encontrada"));
+        return disciplinaRepository.save(disciplina);
+    }
+
+        // Método para buscar uma disciplina por ID
     public Optional<DisciplinaModel> findById(Long id) {
         return disciplinaRepository.findById(id);
     }
