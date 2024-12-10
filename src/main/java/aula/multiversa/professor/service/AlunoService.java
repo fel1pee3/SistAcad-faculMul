@@ -2,6 +2,7 @@ package aula.multiversa.professor.service;
 
 import aula.multiversa.professor.model.AlunoModel;
 import aula.multiversa.professor.model.DisciplinaModel;
+import aula.multiversa.professor.model.ProfessorModel;
 import aula.multiversa.professor.repository.AlunoRepository;
 import aula.multiversa.professor.repository.DisciplinaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,17 @@ public class AlunoService {
 
     // Método para atualizar um aluno
     public AlunoModel update(Long alunoId, AlunoModel aluno) {
-        alunoRepository.findById(alunoId).orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
-        return alunoRepository.save(aluno);
+        // Recupera do banco de dados
+        AlunoModel alunoExistente = alunoRepository.findById(alunoId)
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
+
+        // Atualiza os campos da disciplina existente com os dados do novo objeto
+        alunoExistente.setDisciplinas(aluno.getDisciplinas());
+        alunoExistente.setNome(aluno.getNome());
+        alunoExistente.setEmail(aluno.getEmail());
+
+        // Salva o professor atualizado no banco de dados
+        return alunoRepository.save(alunoExistente);
     }
 
     // Método para buscar um aluno por ID

@@ -21,8 +21,17 @@ public class ProfessorService {
     }
 
     public ProfessorModel update(Long professorId, ProfessorModel professor) {
-        professorRepository.findById(professorId).orElseThrow(() -> new RuntimeException("Professor não encontrado"));
-        return professorRepository.save(professor);
+        // Recupera o professor do banco de dados
+        ProfessorModel professorExistente = professorRepository.findById(professorId)
+                .orElseThrow(() -> new RuntimeException("Professor não encontrado"));
+
+        // Atualiza os campos do professor existente com os dados do novo objeto
+        professorExistente.setNome(professor.getNome());
+        professorExistente.setEmail(professor.getEmail());
+        professorExistente.setDisciplinas(professor.getDisciplinas());
+
+        // Salva o professor atualizado no banco de dados
+        return professorRepository.save(professorExistente);
     }
 
     // Método para buscar um professor por ID

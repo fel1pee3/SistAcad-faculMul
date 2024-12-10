@@ -25,8 +25,17 @@ public class DisciplinaService {
     }
 
     public DisciplinaModel update(Long disciplinaId, DisciplinaModel disciplina) {
-        disciplinaRepository.findById(disciplinaId).orElseThrow(() -> new RuntimeException("Disciplina não encontrada"));
-        return disciplinaRepository.save(disciplina);
+        // Recupera do banco de dados
+        DisciplinaModel disciplinaExistente = disciplinaRepository.findById(disciplinaId)
+                .orElseThrow(() -> new RuntimeException("Disciplina não encontrada"));
+
+        // Atualiza os campos da disciplina existente com os dados do novo objeto
+        disciplinaExistente.setAlunos();
+        disciplinaExistente.setNome();
+        disciplinaExistente.setProfessor();
+
+        // Salva o professor atualizado no banco de dados
+        return disciplinaRepository.save(disciplinaExistente);
     }
 
         // Método para buscar uma disciplina por ID
