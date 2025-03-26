@@ -1,10 +1,8 @@
 package aula.multiversa.professor.model;
 
-import lombok.Data;
 import jakarta.persistence.*;
 import java.util.List;
 
-@Data
 @Entity
 @Table(name="Professor")
 public class ProfessorModel {
@@ -22,4 +20,35 @@ public class ProfessorModel {
     @OneToMany(mappedBy="professor")
     private List<DisciplinaModel> disciplinas;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<DisciplinaModel> getDisciplinas() {
+        return disciplinas;
+    }
+
+    public void setDisciplinas(List<DisciplinaModel> disciplinas) {
+        this.disciplinas = disciplinas;
+    }
 }
