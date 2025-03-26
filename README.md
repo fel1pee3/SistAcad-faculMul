@@ -1,4 +1,4 @@
-# Professor Management System
+# Sistema de Gerenciamento de Professores, Alunos e Disciplinas
 
 Este projeto é um sistema de gerenciamento de professores, alunos e disciplinas utilizando Spring Boot e PostgreSQL.
 
