@@ -2,60 +2,72 @@ package aula.multiversa.professor.controller;
 
 import aula.multiversa.professor.model.AlunoModel;
 import aula.multiversa.professor.service.AlunoService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+@WebMvcTest(AlunoController.class)
 public class AlunoControllerTest {
 
-    private final AlunoService alunoService = Mockito.mock(AlunoService.class);
-    private final AlunoController alunoController = new AlunoController(alunoService);
+    @Autowired
+    private MockMvc mockMvc;
 
-    @Test
-    public void testTC001_CriarAlunoComDadosValidos() {
-        AlunoModel aluno = new AlunoModel();
-        aluno.setNome("João");
-        aluno.setIdade(20);
-        aluno.setCurso("Engenharia");
+    @MockBean
+    private AlunoService alunoService;
 
-        Mockito.when(alunoService.save(any(AlunoModel.class))).thenReturn(aluno);
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-        ResponseEntity<AlunoModel> response = alunoController.create(aluno);
+    private AlunoModel alunoValido;
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("João", response.getBody().getNome());
-        assertEquals(20, response.getBody().getIdade());
-        assertEquals("Engenharia", response.getBody().getCurso());
+    @BeforeEach
+    void setUp() {
+        alunoValido = new AlunoModel();
+        alunoValido.setNome("João");
+        alunoValido.setEmail("joao@email.com");
+        alunoValido.setDisciplinas(null);  // Lista vazia por padrão
     }
 
     @Test
-    public void testTC002_CriarAlunoSemNome() {
-        AlunoModel aluno = new AlunoModel();
-        aluno.setIdade(20);
-        aluno.setCurso("Engenharia");
+    void testCriarAluno_ComDadosValidos_DeveRetornar200() throws Exception {
+        Mockito.when(alunoService.save(Mockito.any(AlunoModel.class))).thenReturn(alunoValido);
 
-        Mockito.when(alunoService.save(any(AlunoModel.class)))
-                .thenThrow(new IllegalArgumentException("Nome é obrigatório"));
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> alunoController.create(aluno));
-        assertEquals("Nome é obrigatório", exception.getMessage());
+        mockMvc.perform(post("/alunos/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(alunoValido)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nome").value("João"))
+                .andExpect(jsonPath("$.email").value("joao@email.com"));
     }
 
     @Test
-    public void testTC003_CriarAlunoComIdadeNegativa() {
-        AlunoModel aluno = new AlunoModel();
-        aluno.setNome("Maria");
-        aluno.setIdade(-5);
-        aluno.setCurso("Matemática");
+    void testCriarAluno_SemNome_DeveRetornar400() throws Exception {
+        AlunoModel alunoSemNome = new AlunoModel();
+        alunoSemNome.setEmail("joao@email.com");
 
-        Mockito.when(alunoService.save(any(AlunoModel.class)))
-                .thenThrow(new IllegalArgumentException("Idade não pode ser negativa"));
+        mockMvc.perform(post("/alunos/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(alunoSemNome)))
+                .andExpect(status().isBadRequest());
+    }
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> alunoController.create(aluno));
-        assertEquals("Idade não pode ser negativa", exception.getMessage());
+    @Test
+    void testCriarAluno_SemEmail_DeveRetornar400() throws Exception {
+        AlunoModel alunoSemEmail = new AlunoModel();
+        alunoSemEmail.setNome("Maria");
+
+        mockMvc.perform(post("/alunos/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(alunoSemEmail)))
+                .andExpect(status().isBadRequest());
     }
 }
