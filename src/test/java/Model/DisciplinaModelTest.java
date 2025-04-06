@@ -30,6 +30,6 @@ public class DisciplinaModelTest {
         assertTrue(disciplina.getAlunos().contains(aluno));
     }
 
-    
+
 
 }

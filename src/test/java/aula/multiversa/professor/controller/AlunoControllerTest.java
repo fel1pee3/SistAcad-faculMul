@@ -1,6 +1,7 @@
 package aula.multiversa.professor.controller;
 
 import aula.multiversa.professor.model.AlunoModel;
+import aula.multiversa.professor.model.DisciplinaModel;
 import aula.multiversa.professor.repository.AlunoRepository;
 import aula.multiversa.professor.repository.DisciplinaRepository;
 import aula.multiversa.professor.service.AlunoService;
@@ -16,9 +17,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Set;
+
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 
 @WebMvcTest(AlunoController.class)
 public class AlunoControllerTest {
@@ -34,6 +41,8 @@ public class AlunoControllerTest {
 
     @MockitoBean
     private DisciplinaRepository disciplinaRepository;
+
+    private DisciplinaModel disciplina;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -81,6 +90,30 @@ public class AlunoControllerTest {
         // Verificando que o método save do service NÃO foi chamado
         Mockito.verify(alunoService, Mockito.never()).save(Mockito.any(AlunoModel.class));
     }
+
+    @Test
+    void testCriarAluno_ComDisciplina_DeveRetornar200() throws Exception {
+        disciplina = new DisciplinaModel();
+        disciplina.setNome("Geografia");
+
+        // Criando aluno e associando a disciplina
+        AlunoModel alunoValido = new AlunoModel();
+        alunoValido.setNome("João");
+        alunoValido.setEmail("joao@email.com");
+        alunoValido.setDisciplinas(Set.of(disciplina));
+
+        // Mock do service retornando o próprio aluno
+        Mockito.when(alunoService.save(Mockito.any(AlunoModel.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        mockMvc.perform(post("/alunos/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(alunoValido)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nome").value("João"))
+                .andExpect(jsonPath("$.email").value("joao@email.com"))
+                .andExpect(jsonPath("$.disciplinas[0].nome").value("Geografia")); // Aqui era "disciplina", corrigido para "disciplinas"
+    }
+
 
     // Adiciona um Bean fake para injetar o Service mockado
     @TestConfiguration
