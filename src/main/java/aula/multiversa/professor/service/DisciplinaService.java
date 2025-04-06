@@ -30,9 +30,9 @@ public class DisciplinaService {
                 .orElseThrow(() -> new RuntimeException("Disciplina não encontrada"));
 
         // Atualiza os campos da disciplina existente com os dados do novo objeto
-        disciplinaExistente.setAlunos();
-        disciplinaExistente.setNome();
-        disciplinaExistente.setProfessor();
+        disciplinaExistente.setAlunos(disciplina.getAlunos());
+        disciplinaExistente.setNome(disciplina.getNome());
+        disciplinaExistente.setProfessor(disciplina.getProfessor());
 
         // Salva o professor atualizado no banco de dados
         return disciplinaRepository.save(disciplinaExistente);

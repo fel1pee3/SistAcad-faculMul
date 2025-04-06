@@ -34,7 +34,7 @@ public class DisciplinaModel {
         return nome;
     }
 
-    public void setNome() {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
@@ -50,9 +50,10 @@ public class DisciplinaModel {
         return alunos;
     }
 
-    public void setAlunos() {
+    public void setAlunos(Set<AlunoModel> alunos) {
         this.alunos = alunos;
     }
+
 
     public void setProfessor() {
     }

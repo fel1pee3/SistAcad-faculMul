@@ -1,6 +1,7 @@
 package aula.multiversa.professor.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.Set;
@@ -19,6 +20,7 @@ public class AlunoModel {
 
     @NotBlank(message = "O e-mail do aluno é obrigatório")
     @Column(nullable = false, unique = true, length = 100)
+    @Email(message = "O email deve ser válido")
     private String email;
 
     @ManyToMany

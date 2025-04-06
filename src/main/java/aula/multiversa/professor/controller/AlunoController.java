@@ -2,6 +2,7 @@ package aula.multiversa.professor.controller;
 
 import aula.multiversa.professor.model.AlunoModel;
 import aula.multiversa.professor.service.AlunoService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class AlunoController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<AlunoModel> create(@RequestBody AlunoModel aluno) {
+    public ResponseEntity<AlunoModel> create(@Valid @RequestBody AlunoModel aluno) {
         return ResponseEntity.ok(alunoService.save(aluno));
     }
 
