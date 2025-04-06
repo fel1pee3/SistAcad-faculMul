@@ -2,6 +2,8 @@ package aula.multiversa.professor.model;
 
 
 import jakarta.persistence.*;
+
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -54,7 +56,14 @@ public class DisciplinaModel {
         this.alunos = alunos;
     }
 
+    public void adicionarAluno(AlunoModel aluno) {
+        if (alunos == null) {
+            alunos = new HashSet<>();
+        }
+        alunos.add(aluno);
+    }
 
     public void setProfessor() {
     }
+
 }
