@@ -73,5 +73,18 @@ public class AlunoService {
         return alunoRepository.save(aluno);
     }
 
+    public AlunoModel salvar(AlunoModel aluno) {
+        if (aluno.getEmail() == null || aluno.getEmail().isEmpty()) {
+            throw new IllegalArgumentException("Email é obrigatório");
+        }
+        return alunoRepository.save(aluno);
+    }
 
+    public void deletar(String matricula) {
+        alunoRepository.deleteById(matricula);
+    }
+
+    public Optional<AlunoModel> buscarPorMatricula(String matricula) {
+        return alunoRepository.findById(Long.valueOf(matricula));
+    }
 }

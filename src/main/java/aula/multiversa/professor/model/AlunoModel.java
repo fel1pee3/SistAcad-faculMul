@@ -31,6 +31,13 @@ public class AlunoModel {
     )
     private Set<DisciplinaModel> disciplinas;
 
+    public AlunoModel(String number, String ana, String mail) {
+    }
+
+    public AlunoModel() {
+
+    }
+
     public Long getMatricula() {
         return Matricula;
     }

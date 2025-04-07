@@ -48,4 +48,7 @@ public class DisciplinaServiceTest {
         verify(disciplinaRepository).save(any(DisciplinaModel.class));
     }
 
+    //Criação de Casos de Teste (INDIVIDUAL)
+
+
 }
