@@ -18,6 +18,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class AunoServiceTest {
 
+    //Criação de Casos de Teste (INDIVIDUAL)
+
     @Mock
     private AlunoRepository alunoRepository;
 

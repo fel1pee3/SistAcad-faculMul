@@ -69,4 +69,5 @@ public class DisciplinaService {
         disciplina.setProfessor(null);
         return disciplinaRepository.save(disciplina);
     }
+
 }
