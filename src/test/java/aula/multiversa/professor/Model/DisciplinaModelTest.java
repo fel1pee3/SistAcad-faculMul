@@ -1,4 +1,4 @@
-package Model;
+package aula.multiversa.professor.Model;
 
 import aula.multiversa.professor.model.AlunoModel;
 import aula.multiversa.professor.model.DisciplinaModel;

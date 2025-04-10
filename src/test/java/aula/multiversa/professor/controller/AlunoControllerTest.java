@@ -19,12 +19,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Set;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @WebMvcTest(AlunoController.class)
@@ -46,6 +43,7 @@ public class AlunoControllerTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    //TC001 CRIAR ALUNO COM DADOS VALIDO
     @Test
     void testCriarAluno_ComDadosValidos_DeveRetornar200() throws Exception {
         AlunoModel alunoValido = new AlunoModel();
@@ -63,6 +61,7 @@ public class AlunoControllerTest {
                 .andExpect(jsonPath("$.email").value("joao@email.com"));
     }
 
+    //TC002 CRIAR ALUNO SEM NOME
     @Test
     void testCriarAluno_SemNome_DeveRetornar400() throws Exception {
         AlunoModel alunoSemNome = new AlunoModel();
@@ -77,6 +76,7 @@ public class AlunoControllerTest {
         Mockito.verify(alunoService, Mockito.never()).save(Mockito.any(AlunoModel.class));
     }
 
+    //TC003 CRIAR ALUNO SEM E-MAIL
     @Test
     void testCriarAluno_SemEmail_DeveRetornar400() throws Exception {
         AlunoModel alunoSemEmail = new AlunoModel();
@@ -91,6 +91,7 @@ public class AlunoControllerTest {
         Mockito.verify(alunoService, Mockito.never()).save(Mockito.any(AlunoModel.class));
     }
 
+    // TC004 - CRIAR UM ALUNO EM UMA DISCIPLINA
     @Test
     void testCriarAluno_ComDisciplina_DeveRetornar200() throws Exception {
         disciplina = new DisciplinaModel();
@@ -113,7 +114,6 @@ public class AlunoControllerTest {
                 .andExpect(jsonPath("$.email").value("joao@email.com"))
                 .andExpect(jsonPath("$.disciplinas[0].nome").value("Geografia")); // Aqui era "disciplina", corrigido para "disciplinas"
     }
-
 
     // Adiciona um Bean fake para injetar o Service mockado
     @TestConfiguration

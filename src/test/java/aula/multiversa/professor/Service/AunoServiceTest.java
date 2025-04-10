@@ -1,4 +1,4 @@
-package Service;
+package aula.multiversa.professor.Service;
 
 import aula.multiversa.professor.model.AlunoModel;
 import aula.multiversa.professor.repository.AlunoRepository;

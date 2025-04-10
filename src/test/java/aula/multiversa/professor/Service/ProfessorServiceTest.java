@@ -1,15 +1,19 @@
-package Service;
+package aula.multiversa.professor.Service;
 
+import aula.multiversa.professor.exception.EmailInvalidoException;
 import aula.multiversa.professor.model.ProfessorModel;
 import aula.multiversa.professor.repository.ProfessorRepository;
 import aula.multiversa.professor.service.ProfessorService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -29,6 +33,42 @@ public class ProfessorServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+
+    //TESTE MATEUS
+
+    //TC 001 - TESTA O SISTAMA QUANDO EU REALIZO UM CADASTRO COM O EMAIL ERRADO *SEM O @ - APL
+    @Test
+    void deveLancarExcecaoQuandoEmailForInvalido() {
+
+        ProfessorModel professor = new ProfessorModel();
+        professor.setNome("Mini Messi");
+        professor.setEmail("email-invalido");
+
+
+        Assertions.assertThrows(EmailInvalidoException.class, () -> {
+            professorService.cadastrarProfessor(professor);
+        });
+    }
+
+    //TC 002 - TESTA BUSCAR UM PROFESSOR POR ID COM UM ID INVALIDO -- APL
+    @Test
+    void deveLancarExcecaoQuandoNaoEncontrarProfessorPorId() {
+
+        Long idInexistente = 999L;
+
+        Mockito.when(professorRepository.findById(idInexistente))
+                .thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ProfessorService.ProfessorNaoEncontradoException.class, () -> {
+            professorService.findById(idInexistente);
+        });
+
+        Mockito.verify(professorRepository, Mockito.times(1)).findById(idInexistente);
+    }
+
+
+    //TESTE FELIPE
+    //TC003
     @Test
     void deveBuscarTodosProfessores() {
         List<ProfessorModel> professores = List.of(new ProfessorModel(), new ProfessorModel());
@@ -40,7 +80,7 @@ public class ProfessorServiceTest {
         assertEquals(2, resultado.size());
         verify(professorRepository).findAll();
     }
-
+    //TC004
     @Test
     void deveExcluirProfessorPorId() {
         Long id = 1L;
@@ -51,5 +91,7 @@ public class ProfessorServiceTest {
 
         verify(professorRepository).deleteById(id);
     }
+
+
 
 }

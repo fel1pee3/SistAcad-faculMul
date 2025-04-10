@@ -1,5 +1,6 @@
 package aula.multiversa.professor.service;
 
+import aula.multiversa.professor.exception.EmailInvalidoException;
 import aula.multiversa.professor.model.AlunoModel;
 import aula.multiversa.professor.model.ProfessorModel;
 import aula.multiversa.professor.repository.ProfessorRepository;
@@ -36,7 +37,8 @@ public class ProfessorService {
 
     // Método para buscar um professor por ID
     public Optional<ProfessorModel> findById(Long id) {
-        return professorRepository.findById(id);
+        return Optional.ofNullable(professorRepository.findById(id)
+                .orElseThrow(() -> new ProfessorNaoEncontradoException("Professor não encontrado com id: " + id)));
     }
 
     // Método para buscar todos os professores
@@ -48,4 +50,20 @@ public class ProfessorService {
     public void deleteById(Long id) {
         professorRepository.deleteById(id);
     }
+
+    //METODO PARA Validar e lançar exceção no email
+    public ProfessorModel cadastrarProfessor(ProfessorModel professor) {
+        if (!professor.getEmail().contains("@")) {
+            throw new EmailInvalidoException("Email inválido.");
+        }
+        return professorRepository.save(professor);
+    }
+
+    //Metodo pra lança uma exceçao no Id
+    public class ProfessorNaoEncontradoException extends RuntimeException {
+        public ProfessorNaoEncontradoException(String mensagem) {
+            super(mensagem);
+        }
+    }
+
 }

@@ -1,4 +1,4 @@
-package TestAcceptance;
+package aula.multiversa.professor.TestAcceptance;
 
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;

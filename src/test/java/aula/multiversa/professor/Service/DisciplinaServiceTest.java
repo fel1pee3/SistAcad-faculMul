@@ -1,4 +1,4 @@
-package Service;
+package aula.multiversa.professor.Service;
 
 import aula.multiversa.professor.model.DisciplinaModel;
 import aula.multiversa.professor.model.ProfessorModel;
@@ -31,28 +31,25 @@ public class DisciplinaServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    //TC01 - SALVAR DISCIPLINA - APL
     @Test
     void testSalvarDisciplina() {
-        //criar Mock disciplina
+
         DisciplinaModel disciplina = new DisciplinaModel();
         disciplina.setNome("Análise e Desenvolvimento de Sistemas");
 
-        //simula comportamento de repositorio
         when(disciplinaRepository.save(any(DisciplinaModel.class))).thenReturn(disciplina);
 
-        //chamando serviço
         DisciplinaModel resultado = disciplinaService.save(disciplina);
 
-        // Verificações
         assertNotNull(resultado);
         assertEquals("Análise e Desenvolvimento de Sistemas", resultado.getNome());
 
-        // Verifica se o método save foi chamado
         verify(disciplinaRepository).save(any(DisciplinaModel.class));
     }
 
-    //Criação de Casos de Teste (INDIVIDUAL)
 
+    //TC002 TESTE BUSCAR DISCIPLINA POR ID - APL
     @Test
     void deveRetornarDisciplinaPorId() {
         DisciplinaModel disciplina = new DisciplinaModel();
@@ -67,6 +64,7 @@ public class DisciplinaServiceTest {
         assertEquals("Matemática", resultado.get().getNome());
     }
 
+    //TC003 DELETA DISCIPLINA POR ID
     @Test
     void deveDeletarDisciplinaPorId() {
         disciplinaService.deleteById(1L);
