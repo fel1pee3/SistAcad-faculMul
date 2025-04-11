@@ -25,7 +25,7 @@ public class AunoServiceTest {
     @InjectMocks
     private AlunoService alunoService;
 
-    //TC01 - CRIAR EXCEÇÃO QUANDO EMAIL FOR NULO - APL
+    //TC01 - CRIAR EXCEÇÃO QUANDO EMAIL FOR NULO - APL FELIPE
     @Test
     void deveLancarExcecaoQuandoEmailForNulo() {
         AlunoModel aluno = new AlunoModel();
@@ -39,26 +39,7 @@ public class AunoServiceTest {
         assertEquals("Email é obrigatório", excecao.getMessage());
     }
 
-    //TC02 - TESTE LANÇA EXCEÇÃO AO CADASTRA ALUNO COM EMAIL NULO - APL
-    @Test
-    void testCadastrarAluno_EmailNulo_DeveLancarExcecao(){
-        AlunoRepository alunoRepositoryMock = Mockito.mock(AlunoRepository.class);
-        AlunoService alunoService = new AlunoService();
-        alunoService.setAlunoRepository(alunoRepositoryMock);
-
-        AlunoModel aluno = new AlunoModel();
-        aluno.setNome("Felipe");
-        aluno.setEmail(null);
-        aluno.setDisciplinas(null);
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            alunoService.cadastrarAluno(aluno);
-        });
-
-        assertEquals("Email do Aluno não é obrigatório", exception.getMessage());
-    }
-
-    // TC03 - BUSCA ALUNO POR MATRICULA
+    // TC02 - BUSCA ALUNO POR MATRICULA - PL - TA VAGO
     @Test
     void deveRetornarAlunoPorMatricula() {
         AlunoModel aluno = new AlunoModel();
@@ -74,7 +55,7 @@ public class AunoServiceTest {
         assertEquals("Carlos", resultado.get().getNome());
     }
 
-    //TC04 - DELETA ALUNO POR MATRICULA
+    //TC03 - DELETA ALUNO POR MATRICULA
     @Test
     void deveDeletarAlunoPorMatricula() {
         String matricula = "999";
@@ -83,7 +64,6 @@ public class AunoServiceTest {
 
         verify(alunoRepository).deleteById(matricula);
     }
-
 
 
 }

@@ -32,7 +32,7 @@ public class ProfessorServiceTest {
     }
 
 
-    //TC 001 - TESTA O SISTAMA QUANDO EU REALIZO UM CADASTRO COM O EMAIL ERRADO *SEM O @ - APL
+    //TC 001 - TESTA O SISTAMA QUANDO EU REALIZO UM CADASTRO COM O EMAIL ERRADO *SEM O @ - APL MATEUS
     @Test
     void deveLancarExcecaoQuandoEmailForInvalido() {
 
@@ -46,7 +46,7 @@ public class ProfessorServiceTest {
         });
     }
 
-    //TC 002 - TESTA BUSCAR UM PROFESSOR POR ID COM UM ID INVALIDO -- APL
+    //TC 002 - TESTA BUSCAR UM PROFESSOR POR ID COM UM ID INVALIDO -- APL VAGO
     @Test
     void deveLancarExcecaoQuandoNaoEncontrarProfessorPorId() {
 

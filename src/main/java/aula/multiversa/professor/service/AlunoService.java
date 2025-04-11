@@ -91,10 +91,4 @@ public class AlunoService {
         return alunoRepository.findById(Long.valueOf(matricula));
     }
 
-    //METODOS PARA TC04
-    public void setAlunoRepository(AlunoRepository alunoRepositoryMock) {
-    }
-
-    public void cadastrarAluno(AlunoModel aluno) {
-    }
 }

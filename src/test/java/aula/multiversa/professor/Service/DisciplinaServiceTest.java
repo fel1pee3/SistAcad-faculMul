@@ -31,7 +31,7 @@ public class DisciplinaServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    //TC01 - SALVAR UM DISCIPLINA - APL
+    //TC01 - SALVAR UM DISCIPLINA - APL KAUE
     @Test
     void testSalvarDisciplina() {
 
@@ -49,7 +49,7 @@ public class DisciplinaServiceTest {
     }
 
 
-    //TC002 TESTE BUSCAR DISCIPLINA POR ID - APL
+    //TC002 TESTE BUSCAR DISCIPLINA POR ID - APL VAGO
     @Test
     void deveRetornarDisciplinaPorId() {
         DisciplinaModel disciplina = new DisciplinaModel();
